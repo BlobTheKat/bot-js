@@ -7,13 +7,13 @@ module.exports=function(token,firetoken){
   let assetFor = a=>require("asset-js")(require("asset-js-firestore")(a,firetoken));
   let user = assetFor("users");
   let guild = assetFor("guilds");
+  let bot = new Discord.Client();
   bot.assets = {user, guild, save(){
     return Promise.all([
       user.save(),
       guild.save()
     ])
   }}
-  let bot = new Discord.Client();
   let ai = new (require('alexa-bot-api'))();
   ai = ai.getReply.bind(ai);
   bot.ai = ai;
