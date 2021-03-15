@@ -77,5 +77,5 @@ Note: to include spaces in a string when *using* the command, put the string aro
 `:channel` - a discord channel, or `null` if it's invalid
 `:role` - a role that's in the server
 
-# Issues
-Please contact me on discord because i really really cba to put this on github
+## Issues
+Go to github

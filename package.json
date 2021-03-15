@@ -1,0 +1,24 @@
+{
+  "name": "bot-cmd",
+  "version": "1.0.0",
+  "description": "Discord Bot Boilerplate",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MatReiner/bot-js.git"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "command"
+  ],
+  "author": "BlobKat#9999",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MatReiner/bot-js/issues"
+  },
+  "homepage": "https://github.com/MatReiner/bot-js#readme"
+}
