@@ -21,15 +21,16 @@ module.exports=function(token,firetoken){
   bot.login(token);
   function cmd(reg, hd){
     let res = []
-    reg.replace(/\w+(?:\|\w+)*|:(:?\w*)/g,(a,c)=>{
+    reg.replace(/(?:\w*(?:\|\w+)*|:(:?\w*))(\??)/g,(a,c,o)=>{
       let thing;
       if(typeof c=="string"){
         thing = cmd.typeregs[c]
-        if(c[0]==":"&&!thing&&cmd.typeregs[c.slice(1)]) thing = [new RegExp("(?:"+cmd.typeregs[c.slice(1)][0].source+")(?: "+cmd.typeregs[c.slice(1)][0].source+")*",cmd.typeregs[c.slice(1)][0].flags+"g"),a=>a.map(cmd.typeregs[c.slice(1)][1]),true];
+        if(c[0]==":"&&!thing&&cmd.typeregs[c.slice(1)]) thing = [new RegExp("(?:"+cmd.typeregs[c.slice(1)][0].source+")(?: "+cmd.typeregs[c.slice(1)][0].source+")*",cmd.typeregs[c.slice(1)][0].flags+"g"),a=>a.map(cmd.typeregs[c.slice(1)][1]),1];
         else if(!thing) thing = [/\S+/,a=>a]
       }else{
         thing = [new RegExp(a),a=>a]
       }
+      if(o)thing[2]|=2
       res.push(thing)
     })
     cmd.stack.push([hd,...res])
@@ -67,7 +68,7 @@ module.exports=function(token,firetoken){
     }else{
       a = a[0]=='"'?json(a):a
       a = bot.users.cache.filter(b=>b.username.startsWith(a))
-      return a.length==1?a[0]:null
+      return a.size==1?a.first():null
     }
   })
   bot.type("member", /<@!?\d{11,20}>|\w+||\d+/,async (a,msg)=>{
@@ -77,7 +78,7 @@ module.exports=function(token,firetoken){
     }else{
       a = a[0]=='"'?json(a):a
       a = msg.guild.members.cache.filter(b=>(b.nickname||b.user.username).startsWith(a))
-      return a.length==1?a[0]:null
+      return a.size==1?a.first():null
     }
   })
   bot.type("channel", /<#\d{11,20}>|\w+||\d+/,async (a,msg)=>{
@@ -87,7 +88,7 @@ module.exports=function(token,firetoken){
     }else{
       a = a[0]=='"'?json(a):a
       a = msg.guild.channels.cache.filter(b=>b.name.startsWith(a)||b.name.startsWith(a.replace(/^#/,"")))
-      return a.length==1?a[0]:null
+      return a.size==1?a.first():null
     }
   })
   bot.type("role", /<#\d{11,20}>|\w+||\d+/,async (a,msg)=>{
@@ -97,7 +98,7 @@ module.exports=function(token,firetoken){
     }else{
       a = a[0]=='"'?json(a):a
       a = msg.guild.roles.cache.filter(b=>b.name.startsWith(a)||b.name.startsWith(a.replace(/^#/,"")))
-      return a.length==1?a[0]:null
+      return a.size==1?a.first():null
     }
   })
   bot.on("message", async mg => {
@@ -115,8 +116,10 @@ module.exports=function(token,firetoken){
         let r = m.slice(pos).match(new RegExp("^(?:"+q[0].source+")",q[0].flags+"i")) || [""]
         if(r[0].length){
           pos += r[0].length + 1;
-          r = await q[1](q[2]?r:r[0],mg)
+          r = await q[1](q[2]&1?r:r[0],mg)
           q[0].source.match(/\W/) && call.push(r)
+        }else if(q[2]&2){
+          q[0].source.match(/\W/) && call.push(undefined)
         }else continue a
       }
       if(pos < m.length)continue
