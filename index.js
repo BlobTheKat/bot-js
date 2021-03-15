@@ -1,6 +1,5 @@
 let util=require("util"),rl=require("readline").createInterface({input:process.stdin,output:process.stdout})
 module.exports=function(token,firetoken){
-  Object.defineProperty(Array.prototype,"choose",{enumerable:!1,value(){return this[(Math.random()*this.length)>>>0]}})
   let Discord = require("discord.js");
   Discord.Channel.prototype.svg = function(data){
     return this.send(new Discord.MessageAttachment("https://svg.thei5pro.repl.co/svg.png?svg="+encodeURIComponent(data)))
@@ -96,8 +95,8 @@ module.exports=function(token,firetoken){
     }
   })
   bot.on("message", async mg => {
-    if(!mg.guild.me.permissionsIn(mg.channel).has("SEND_MESSAGES"))return
     if(mg.author.bot || mg.webhookID)return
+    if(mg.guild && !mg.guild.me.permissionsIn(mg.channel).has("SEND_MESSAGES"))return
     let m = mg.content.slice(pr.length);
     if(mg.content.match(/^<@!?819519583722668072>/))return mg.channel.send(rp||"Hey there, my prefix is `"+pr+"`").catch(e=>e)
     let calculated = false;
