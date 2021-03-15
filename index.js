@@ -66,7 +66,7 @@ module.exports=function(token,firetoken){
       try{return bot.users.cache.get(a)||await bot.users.fetch(a)}catch(e){return null}
     }else{
       a = a[0]=='"'?json(a):a
-      a = bot.users.cache.filter(b=>b.name.startsWith(a))
+      a = bot.users.cache.filter(b=>b.username.startsWith(a))
       return a.length==1?a[0]:null
     }
   })
@@ -76,7 +76,7 @@ module.exports=function(token,firetoken){
       try{return msg.guild.members.cache.get(a)||await msg.guild.members.fetch(a)}catch(e){return null}
     }else{
       a = a[0]=='"'?json(a):a
-      a = msg.guild.members.cache.filter(b=>b.name.startsWith(a))
+      a = msg.guild.members.cache.filter(b=>(b.nickname||b.user.username).startsWith(a))
       return a.length==1?a[0]:null
     }
   })
