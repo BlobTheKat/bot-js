@@ -3,7 +3,7 @@ It's a discord and firebase boilerplate (the base code) combined with an elabora
 # How to setup
 
 ```js
-let bot = require("bot-js")(TOKEN, FIREBASE_TOKEN)
+let bot = require("bot-cmd")(TOKEN, FIREBASE_TOKEN)
 //no need for bot.on("message", ...)
 bot.set({
   prefix: "p!",
