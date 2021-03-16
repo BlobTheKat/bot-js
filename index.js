@@ -21,7 +21,7 @@ module.exports=function(token,firetoken){
   bot.login(token);
   function cmd(reg, hd){
     let res = []
-    reg.replace(/(?:\w*(?:\|\w+)*|:(:?\w*))(\??)/g,(a,c,o)=>{
+    reg.replace(/(?:\w+(?:\|\w+)*|:(:?\w*))(\??)/g,(a,c,o)=>{
       let thing;
       if(typeof c=="string"){
         thing = cmd.typeregs[c]
@@ -67,7 +67,7 @@ module.exports=function(token,firetoken){
       try{return bot.users.cache.get(a)||await bot.users.fetch(a)}catch(e){return null}
     }else{
       a = a[0]=='"'?json(a):a
-      a = bot.users.cache.filter(b=>b.username.startsWith(a))
+      a = bot.users.cache.filter(b=>b.username.toLowerCase().startsWith(a.toLowerCase())
       return a.size==1?a.first():null
     }
   })
@@ -77,7 +77,7 @@ module.exports=function(token,firetoken){
       try{return msg.guild.members.cache.get(a)||await msg.guild.members.fetch(a)}catch(e){return null}
     }else{
       a = a[0]=='"'?json(a):a
-      a = msg.guild.members.cache.filter(b=>(b.nickname||b.user.username).startsWith(a))
+      a = msg.guild.members.cache.filter(b=>(b.nickname||b.user.username).toLowerCase().startsWith(a.toLowerCase()))
       return a.size==1?a.first():null
     }
   })
@@ -87,7 +87,7 @@ module.exports=function(token,firetoken){
       try{return msg.guild.channels.cache.get(a)||await msg.guild.channels.fetch(a)}catch(e){return null}
     }else{
       a = a[0]=='"'?json(a):a
-      a = msg.guild.channels.cache.filter(b=>b.name.startsWith(a)||b.name.startsWith(a.replace(/^#/,"")))
+      a = msg.guild.channels.cache.filter(b=>b.name.toLowerCase().startsWith(a.toLowerCase())||b.name.toLowerCase().startsWith(a.toLowerCase().replace(/^#/,"")))
       return a.size==1?a.first():null
     }
   })
@@ -97,7 +97,7 @@ module.exports=function(token,firetoken){
       try{return msg.guild.roles.cache.get(a)||await msg.guild.roles.fetch(a)}catch(e){return null}
     }else{
       a = a[0]=='"'?json(a):a
-      a = msg.guild.roles.cache.filter(b=>b.name.startsWith(a)||b.name.startsWith(a.replace(/^#/,"")))
+      a = msg.guild.roles.cache.filter(b=>b.name.toLowerCase().startsWith(a.toLowerCase()))
       return a.size==1?a.first():null
     }
   })
