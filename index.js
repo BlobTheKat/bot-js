@@ -67,7 +67,7 @@ module.exports=function(token,firetoken){
       try{return bot.users.cache.get(a)||await bot.users.fetch(a)}catch(e){return null}
     }else{
       a = a[0]=='"'?json(a):a
-      a = bot.users.cache.filter(b=>b.username.toLowerCase().startsWith(a.toLowerCase())
+      a = bot.users.cache.filter(b=>b.username.toLowerCase().startsWith(a.toLowerCase()))
       return a.size==1?a.first():null
     }
   })
