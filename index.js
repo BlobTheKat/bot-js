@@ -105,7 +105,7 @@ module.exports=function(token,firetoken){
     if(mg.author.bot || mg.webhookID)return
     if(mg.guild && !mg.guild.me.permissionsIn(mg.channel).has("SEND_MESSAGES"))return
     let m = mg.content.slice(pr.length);
-    if(mg.content.match(/^<@!?819519583722668072>/))return mg.channel.send(rp||"Hey there, my prefix is `"+pr+"`").catch(e=>e)
+    if(mg.content.match(new RegExp("^<@!?"+bot.id+">")))return mg.channel.send(rp||"Hey there, my prefix is `"+pr+"`").catch(e=>e)
     let calculated = false;
     let u, g, cx;
     a: for(var i of cmd.stack){
