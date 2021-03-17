@@ -1,6 +1,6 @@
 {
   "name": "bot-cmd",
-  "version": "1.1.5",
+  "version": "1.1.8",
   "description": "Discord Bot Boilerplate",
   "main": "index.js",
   "scripts": {
@@ -20,5 +20,11 @@
   "bugs": {
     "url": "https://github.com/MatReiner/bot-js/issues"
   },
-  "homepage": "https://github.com/MatReiner/bot-js#readme"
+  "homepage": "https://github.com/MatReiner/bot-js#readme",
+  "dependencies": {
+    "alexa-bot-api": "^0.2.1",
+    "asset-js": "^1.1.4",
+    "asset-js-firestore": "^1.0.7",
+    "discord.js": "^12.5.1"
+  }
 }
