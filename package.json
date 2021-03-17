@@ -1,6 +1,6 @@
 {
   "name": "bot-cmd",
-  "version": "1.1.2",
+  "version": "1.1.4",
   "description": "Discord Bot Boilerplate",
   "main": "index.js",
   "scripts": {
@@ -15,7 +15,7 @@
     "bot",
     "command"
   ],
-  "author": "BlobKat#9999",
+  "author": "BlobKat#4096",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/MatReiner/bot-js/issues"
