@@ -2,7 +2,7 @@ let util=require("util"),rl=require("readline").createInterface({input:process.s
 module.exports=function(token,firetoken){
   let Discord = require("discord.js");
   Discord.Channel.prototype.svg = function(data){
-    return this.send(new Discord.MessageAttachment("https://svg.thei5pro.repl.co/svg.png?svg="+encodeURIComponent(data)))
+    return this.send(new Discord.MessageAttachment("https://svg.thei5pro.repl.co/svg.png?svg="+encodeURIComponent(data))) //SVG API
   }
   let assetFor = a=>require("asset-js")(require("asset-js-firestore")(a,firetoken));
   let user = assetFor("users");
@@ -113,7 +113,7 @@ module.exports=function(token,firetoken){
       let pos = 0;
       let call = [mg]
       for(var q of i.slice(1)){
-        let r = m.slice(pos).match(new RegExp("^(?:"+q[0].source+")",q[0].flags+"i")) || [""]
+        let r = m.slice(pos).match(new RegExp("^(?:"+q[0].source+")(?= |$)",q[0].flags+"i")) || [""]
         if(r[0].length){
           pos += r[0].length + 1;
           r = await q[1](q[2]&1?r:r[0],mg)
@@ -140,8 +140,8 @@ module.exports=function(token,firetoken){
   });
   return bot;
 }
-console.log=(function(a){process.stdout.write("\x0D\x1b[2K"+(typeof a=="string"?a:util.inspect(a,false,5,true))+"\n\x1b[34m> \x1b[m")}).bind(console)
-console.warn=(function(a){process.stdout.write("\x0D\x1b[2K\x1b[33m"+(typeof a=="string"?a:util.inspect(a,false,5,true))+"\n\x1b[34m> \x1b[m")}).bind(console)
-console.error=(function(a){process.stdout.write("\x0D\x1b[2K\x1b[31m"+(typeof a=="string"?a:util.inspect(a,false,5,true))+"\n\x1b[34m> \x1b[m")}).bind(console)
+console.log=(function(...a){process.stdout.write("\x0D\x1b[2K"+a.map(a=>typeof a=="string"?a:util.inspect(a,false,5,true)).join(" ")+"\n\x1b[34m> \x1b[m")}).bind(console)
+console.warn=(function(...a){process.stdout.write("\x0D\x1b[2K\x1b[33m"+a.map(a=>typeof a=="string"?a:util.inspect(a,false,5,true)).join(" ")+"\n\x1b[34m> \x1b[m")}).bind(console)
+console.error=(function(...a){process.stdout.write("\x0D\x1b[2K\x1b[31m"+a.map(a=>typeof a=="string"?a:util.inspect(a,false,5,true)).join(" ")+"\n\x1b[34m> \x1b[m")}).bind(console)
 console.in = console.input = console.ask = a => new Promise(r=>rl.question("\x1b[34m> \x1b[m",r));
 (async a=>{while(1){try{console.log(util.inspect(eval(await console.ask()),false,5,true))}catch(e){console.log("\x1b[31m"+e+"\x1b[m")}}})()
