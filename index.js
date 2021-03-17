@@ -21,7 +21,7 @@ module.exports=function(token,firetoken){
   bot.login(token);
   function cmd(reg, hd){
     let res = []
-    reg.replace(/(?:\w+(?:\|\w+)*|:(:?\w*))(\??)/g,(a,c,o)=>{
+    reg.replace(/(?:[\w_-]+(?:\|[\w_-]+)*|:(:?[\w_-]*))(\??)/g,(a,c,o)=>{
       let thing;
       if(typeof c=="string"){
         thing = cmd.typeregs[c]
@@ -44,7 +44,7 @@ module.exports=function(token,firetoken){
   bot.cmd.stack = []
   bot.cmd.typeregs = {};
   bot.type = function(name, reg, parser){
-    name = name.replace(/\W/g,"");
+    name = name.replace(/[^\w_-]/g,"");
     if(cmd.typeregs[name])throw new Error("'"+name+"' is an already registered type. Please use a different name.")
     cmd.typeregs[name] = [new RegExp("(?:"+(reg.source||reg)+")(?= |$)"),parser]
   }
@@ -61,7 +61,7 @@ module.exports=function(token,firetoken){
   bot.type("bool",/true|false|yes|no|1|0/i,a=>"tyTY1".includes(a[0]))
   bot.type("str",/"([^\\"]|\\.)+"|\S+/,a=>a[0]=='"'?JSON.parse(a):a)
   bot.type("", /[^]*/,a=>a)
-  bot.type("user", /<@!?\d{11,20}>|\w+||\d+/,async (a)=>{
+  bot.type("user", /<@!?\d{11,20}>|\d+|.+/,async (a)=>{
     if(+a||a.match(/<@!?\d+>/)){
       a = a.match(/<@!?(\d+)>|/)[1] || a
       try{return bot.users.cache.get(a)||await bot.users.fetch(a)}catch(e){return null}
@@ -71,7 +71,7 @@ module.exports=function(token,firetoken){
       return a.size==1?a.first():null
     }
   })
-  bot.type("member", /<@!?\d{11,20}>|\w+||\d+/,async (a,msg)=>{
+  bot.type("member", /<@!?\d{11,20}>|\d+|.+/,async (a,msg)=>{
     if(+a||a.match(/<@!?\d+>/)){
       a = a.match(/<@!?(\d+)>|/)[1] || a
       try{return msg.guild.members.cache.get(a)||await msg.guild.members.fetch(a)}catch(e){return null}
@@ -81,7 +81,7 @@ module.exports=function(token,firetoken){
       return a.size==1?a.first():null
     }
   })
-  bot.type("channel", /<#\d{11,20}>|\w+||\d+/,async (a,msg)=>{
+  bot.type("channel", /<#\d{11,20}>|\d+|.+/,async (a,msg)=>{
     if(+a||a.match(/<#\d+>/)){
       a = a.match(/<#(\d+)>|/)[1] || a
       try{return msg.guild.channels.cache.get(a)||await msg.guild.channels.fetch(a)}catch(e){return null}
@@ -91,7 +91,7 @@ module.exports=function(token,firetoken){
       return a.size==1?a.first():null
     }
   })
-  bot.type("role", /<#\d{11,20}>|\w+||\d+/,async (a,msg)=>{
+  bot.type("role", /<#\d{11,20}>|\d+|.+/,async (a,msg)=>{
     if(+a||a.match(/<#\d+>/)){
       a = a.match(/<#(\d+)>|/)[1] || a
       try{return msg.guild.roles.cache.get(a)||await msg.guild.roles.fetch(a)}catch(e){return null}
@@ -117,9 +117,9 @@ module.exports=function(token,firetoken){
         if(r[0].length){
           pos += r[0].length + 1;
           r = await q[1](q[2]&1?r:r[0],mg)
-          q[0].source.match(/\W/) && call.push(r)
+          q[0].source.match(/[^\w_-]/) && call.push(r)
         }else if(q[2]&2){
-          q[0].source.match(/\W/) && call.push(undefined)
+          q[0].source.match(/[^\w_-]/) && call.push(undefined)
         }else continue a
       }
       if(pos < m.length)continue
