@@ -71,11 +71,13 @@ module.exports=function(token="",firetoken="",options={ai:true,member:false,user
     if(cmd.typeregs[name])throw new Error("'"+name+"' is an already registered type. Please use a different name.")
     cmd.typeregs[name] = [new RegExp("(?:"+(reg.source||reg)+")(?= |$)"),parser]
   }
+  bot.cmd.prefix = "!"
   let pr = "!", rp = null, ph="Oops, an error occured. Here's the error: ```js\n$0\n```";
   bot.set = function(a){
     pr = typeof a.prefix == "string" ? new RegExp("^"+a.prefix,"i") : a.prefix || pr
     rp = a.pingHint || rp
     ph = a.errorHint || ph
+    bot.cmd.prefix = pr
     return bot;
   }
   let json = a => {try{return JSON.parse(a)}catch(e){return null}}
