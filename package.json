@@ -1,6 +1,6 @@
 {
   "name": "bot-cmd",
-  "version": "1.2.6",
+  "version": "1.3.4",
   "description": "Discord Bot Boilerplate",
   "main": "index.js",
   "scripts": {
@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/MatReiner/bot-js#readme",
   "dependencies": {
-    "alexa-bot-api": "^0.2.1",
+    "clever-bot-api": "^1.1.1",
     "asset-js": "^1.1.4",
     "asset-js-firestore": "^1.0.7",
     "discord.js": "^12.5.1"
